@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  amex-analyzer:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ~/.amex_analyzer:/root/.amex_analyzer
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+      # You can add any environment variables here if needed
+      # - ENCRYPTION_KEY=your_custom_encryption_key

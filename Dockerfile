@@ -20,7 +20,7 @@ WORKDIR /app
 COPY . .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-app.txt
 
 # Create directory for secure credential storage
 RUN mkdir -p /root/.amex_analyzer
