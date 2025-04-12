@@ -1,0 +1,14 @@
+[project]
+name = "repl-nix-workspace"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "cryptography>=44.0.2",
+    "pandas>=2.2.3",
+    "plotly>=6.0.1",
+    "python-dotenv>=1.1.0",
+    "selenium>=4.31.0",
+    "streamlit>=1.44.1",
+    "trafilatura>=2.0.0",
+]
