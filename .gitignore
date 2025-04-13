@@ -48,3 +48,11 @@ Thumbs.db
 *.ofx
 *.qfx
 *.xlsx
+
+# Statement files and folders
+statements/
+Statements/
+/statements
+/Statements
+**/statements/**
+**/Statements/**
