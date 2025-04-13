@@ -4,7 +4,7 @@ services:
   amex-analyzer:
     build: .
     ports:
-      - "5000:5000"
+      - "5001:5001"
     volumes:
       - ~/.amex_analyzer:/root/.amex_analyzer
     restart: unless-stopped

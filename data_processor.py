@@ -98,13 +98,13 @@ def categorize_transactions(data):
 
 def create_pivot_table(data):
     """
-    Create a pivot table from transaction data.
+    Create pivot tables from transaction data.
     
     Args:
         data (pd.DataFrame): DataFrame containing categorized transaction data
         
     Returns:
-        pd.DataFrame: Pivot table of expenses
+        tuple: (category_pivot, merchant_pivot, category_merchant_pivot) - Three pivot tables for analysis
     """
     # Ensure date is in datetime format
     data['Date'] = pd.to_datetime(data['Date'])
@@ -112,8 +112,8 @@ def create_pivot_table(data):
     # Extract month and year
     data['Month'] = data['Date'].dt.strftime('%Y-%m')
     
-    # Create pivot table: Categories as rows, Months as columns
-    pivot = pd.pivot_table(
+    # Create pivot table by category: Categories as rows, Months as columns
+    category_pivot = pd.pivot_table(
         data,
         values='Amount',
         index='Category',
@@ -123,12 +123,48 @@ def create_pivot_table(data):
     )
     
     # Add a Total column
-    pivot['Total'] = pivot.sum(axis=1)
+    category_pivot['Total'] = category_pivot.sum(axis=1)
     
     # Add a Total row
-    pivot.loc['Total'] = pivot.sum()
+    category_pivot.loc['Total'] = category_pivot.sum()
     
     # Sort columns chronologically
-    pivot = pivot.reindex(sorted(pivot.columns), axis=1)
+    category_pivot = category_pivot.reindex(sorted(category_pivot.columns), axis=1)
     
-    return pivot
+    # Create a second pivot table by merchant
+    # First, clean up merchant names to group similar ones
+    data['Merchant'] = data['Description'].str.upper()  # Convert to uppercase for consistency
+    
+    # Create merchant pivot table: Merchants as rows, Months as columns
+    merchant_pivot = pd.pivot_table(
+        data,
+        values='Amount',
+        index=['Merchant', 'Category'],  # Include category as a secondary index
+        columns='Month',
+        aggfunc='sum',
+        fill_value=0
+    )
+    
+    # Add a Total column
+    merchant_pivot['Total'] = merchant_pivot.sum(axis=1)
+    
+    # Sort by total amount spent (descending)
+    merchant_pivot = merchant_pivot.sort_values('Total', ascending=False)
+    
+    # Sort columns chronologically
+    merchant_pivot = merchant_pivot.reindex(sorted(merchant_pivot.columns), axis=1)
+    
+    # Create a nested pivot table with categories and merchants
+    # This will have categories as main rows and merchants nested underneath
+    category_merchant_pivot = pd.pivot_table(
+        data,
+        values='Amount',
+        index=['Category', 'Merchant'],  # Category as primary index, Merchant as secondary
+        aggfunc='sum',
+        fill_value=0
+    )
+    
+    # Sort by category and then by amount within each category
+    category_merchant_pivot = category_merchant_pivot.sort_values(['Category', 'Amount'], ascending=[True, False])
+    
+    return category_pivot, merchant_pivot, category_merchant_pivot

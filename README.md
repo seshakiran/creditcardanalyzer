@@ -1,14 +1,20 @@
-# Amex Statement Analyzer
+# Credit Card Statement Analyzer
 
-A secure application that retrieves American Express statements, categorizes expenses, and creates interactive pivot tables for financial analysis.
+A secure application that analyzes statements from multiple banks (American Express, Chase, Discover, and more), categorizes expenses, and creates interactive pivot tables for financial analysis - without risking your account security.
 
 ## Features
 
-- **Secure Login**: Connects to American Express to download statements
-- **Transaction Categorization**: Automatically categorizes spending
+- **Multi-Bank Support**: Analyze statements from American Express, Chase, Discover, and other banks
+- **Statement Import**: Easily import multiple statement files at once
+- **Auto-Detection**: Automatically finds recent statement downloads in your Downloads folder
+- **Flexible Time Periods**: Select from predefined time periods or custom date ranges
+- **Transaction Categorization**: Automatically categorizes spending across all your cards
+- **Merchant Analysis**: View spending by merchant within each category
+- **Source Tracking**: See which card was used for each transaction
+- **Collapsible Categories**: Expand/collapse categories to see merchant details
 - **Visualization**: Interactive charts and pivot tables
-- **Data Security**: In-memory processing with optional encrypted credential storage
-- **Export Options**: Export data to CSV or Excel
+- **Data Security**: All processing happens locally on your machine
+- **Export Options**: Export analyzed data to CSV or Excel
 
 ## Running Locally with Docker
 
@@ -33,10 +39,11 @@ docker-compose up
 
 ### Security Features
 
-- Your American Express credentials are never stored in plain text
-- All data processing happens in memory
+- No automated logins to bank websites - you download your own statements
+- Zero risk of account lockout due to suspicious login activity
+- All data processing happens locally on your machine
 - Transaction data is not persistently stored unless you export it
-- Optional encrypted credential storage with secure key generation
+- No credentials required - just your statement files
 
 ## Configuration
 
@@ -48,15 +55,22 @@ If you want to customize the application, you can:
 
 ## Usage
 
-1. Log in with your American Express credentials
-2. Select how many months of statements to download
-3. Optionally save credentials (securely encrypted)
-4. Filter data by date range if needed
-5. Explore the analysis in the different tabs:
-   - Transactions: Raw transaction data
-   - Pivot Table: Expense analysis by category and month
+1. Log in to your bank accounts (American Express, Chase, Discover, etc.)
+2. Download your statement(s) in CSV, OFX, or QFX format
+   - Usually found in the "Statements & Activity" section
+   - Look for "Download" or "Export" options
+3. Launch the Credit Analyzer application
+4. Either:
+   - Upload multiple statement files at once, or
+   - Let the app automatically find recent statement downloads
+5. Select a time period (Last 30 days, This month, Last quarter, etc.) or use a custom date range
+6. Explore the analysis in the different tabs:
+   - Transactions: Raw transaction data from all sources
+   - Pivot Table: Expense analysis by category, merchant, and month
    - Visualizations: Charts showing spending patterns
-6. Export data as needed in CSV or Excel format
+   - Source Summary: Breakdown of spending by card/bank source
+7. Use the collapsible category view to drill down into merchant details
+8. Export analyzed data as needed in CSV or Excel format
 
 ## Notes on Data Privacy
 

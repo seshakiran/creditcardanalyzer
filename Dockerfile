@@ -22,8 +22,9 @@ COPY . .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements-app.txt
 
-# Create directory for secure credential storage
+# Create directories for secure credential storage and downloads
 RUN mkdir -p /root/.amex_analyzer
+RUN mkdir -p /app/temp_downloads && chmod 777 /app/temp_downloads
 
 # Expose the Streamlit port
 EXPOSE 5000
@@ -35,4 +36,4 @@ ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 # Command to run the application
-CMD ["streamlit", "run", "app.py", "--server.port=5000", "--server.address=0.0.0.0", "--server.headless=true"]
+CMD ["streamlit", "run", "app.py", "--server.port=5001", "--server.address=0.0.0.0", "--server.headless=true"]
